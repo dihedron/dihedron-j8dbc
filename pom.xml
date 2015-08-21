@@ -107,7 +107,7 @@
 							<!-- 
 							<Trusted-Library>true</Trusted-Library>
 							-->
-							<Application-Name>Dihedron - Common Utilities Library</Application-Name>
+							<Application-Name>Dihedron - Java8 Classes for JDBC Stream Support</Application-Name>
 						</manifestEntries>
 					</archive>					
 				</configuration>
