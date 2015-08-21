@@ -1,0 +1,6 @@
+eclipse.preferences.version=1
+extraProperties=sonar.language\=java
+lastAnalysisDate=1439993779188
+projectKey=org.dihedron.j8dbc\:dihedron-j8dbc
+serverUrl=http\://localhost\:9000
+version=2
