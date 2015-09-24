@@ -1,7 +1,18 @@
+/*
+ * Copyright (c) 2012-2015, Andrea Funto'. All rights reserved. See LICENSE for details.
+ */ 
 package org.dihedron.j8dbc.impl;
 
+import org.dihedron.core.License;
 import org.dihedron.j8dbc.Field;
 
+/**
+ * A utility subclass, which provides encapsulated access to 
+ * setter methods for {@code Field}s.
+ * 
+ * @author Andrea Funto'
+ */
+@License
 public class FieldImpl extends Field {
 	/**
 	 * Initialises the field's data.

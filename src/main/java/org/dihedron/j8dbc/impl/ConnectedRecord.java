@@ -7,30 +7,32 @@ import java.lang.ref.WeakReference;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 
 import org.dihedron.core.License;
 import org.dihedron.j8dbc.Field;
 import org.dihedron.j8dbc.Record;
-import org.dihedron.j8dbc.RecordIterable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * A class representing an instance of a database row (a record).
+ * A class representing an instance of a database row (a record); the data
+ * is accessed on demand directly from the database.
  * 
  * @author Andrea Funto'
  */
 @License
-public class ConnectedRecord implements Record {
+public class ConnectedRecord extends Record {
 	
 	private static final Logger logger = LoggerFactory.getLogger(ConnectedRecord.class);
 	
 	private WeakReference<ResultSet> rs = null;
 	
-	private int fieldCount = 0;
-	
+	/**
+	 * Constructor.
+	 * 
+	 * @param rs
+	 *   the underlying {@code ResultSet}.
+	 */
 	ConnectedRecord(ResultSet rs) {
 		if(rs != null) {
 			this.rs = new WeakReference<>(rs);
@@ -41,20 +43,11 @@ public class ConnectedRecord implements Record {
 			}
 		}
 	}
-	
-	/**
-	 * Returns the number of fields in this record.
-	 *  
-	 * @return
-	 *   the number of fields in this record.
-	 */
-	public int fieldCount() {
-		return fieldCount;
-	}
-	
+		
 	/**
 	 * @see org.dihedron.j8dbc.Record#get(int)
 	 */
+	@Override
 	public Field get(int index) {
 		if(index >= 0) {
 			try {
@@ -90,6 +83,7 @@ public class ConnectedRecord implements Record {
 	/**
 	 * @see org.dihedron.j8dbc.Record#get(java.lang.String)
 	 */
+	@Override
 	public Field get(String name) {
 		try {
 			ResultSet results = this.rs.get(); 
@@ -108,9 +102,5 @@ public class ConnectedRecord implements Record {
 			logger.error("error retrieving data from JDBC connection", e);
 		}
 		return new FieldImpl();
-	}
-	
-	public Stream<Field> fields() {
-		return StreamSupport.stream(new RecordIterable(this).spliterator(), false);
 	}
 }

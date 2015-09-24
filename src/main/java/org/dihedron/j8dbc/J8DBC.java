@@ -9,6 +9,8 @@ import org.dihedron.core.library.Traits;
 
 
 /**
+ * The library marker class.
+ * 
  * @author Andrea Funto'
  */
 @License

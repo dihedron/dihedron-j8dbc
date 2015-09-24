@@ -12,8 +12,8 @@ import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 import org.dihedron.core.License;
-import org.dihedron.j8dbc.impl.ConnectedRecord;
-import org.dihedron.j8dbc.impl.ConnectedResultSetIterable;
+import org.dihedron.j8dbc.impl.ConnectedRecordFactory;
+import org.dihedron.j8dbc.impl.DisconnectedRecordFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -108,14 +108,31 @@ public class Select  {
 		 *   a {@code stream} of {@code Record} objects.
 		 * @throws SQLException
 		 */
-		public Stream<Record> run() throws SQLException {
+		public Stream<Record> stream() throws SQLException {
 			ResultSet results = statement.get().executeQuery();
 			// NOTE: nobody closes the prepared statement: if we did it here its associated result 
 			// set would be closed immediately too; thus we have to pass it on along with the result 
 			// set and expect the stream-supporting classes to clean up properly as soon as they're 
 			// done iterating on the records
-			return StreamSupport.stream(new ConnectedResultSetIterable(results, statement.get()).spliterator(), false);			
+			return StreamSupport.stream(new ResultSetIterable(new ConnectedRecordFactory(results, statement.get())).spliterator(), false);			
 		}
+		
+		/**
+		 * Runs the query against the database, returning a stream
+		 * of {@code Record} objects.
+		 * 
+		 * @return
+		 *   a {@code stream} of {@code Record} objects.
+		 * @throws SQLException
+		 */
+		public Stream<Record> parallelStream() throws SQLException {
+			ResultSet results = statement.get().executeQuery();
+			// NOTE: nobody closes the prepared statement: if we did it here its associated result 
+			// set would be closed immediately too; thus we have to pass it on along with the result 
+			// set and expect the stream-supporting classes to clean up properly as soon as they're 
+			// done iterating on the records
+			return StreamSupport.stream(new ResultSetIterable(new DisconnectedRecordFactory(results, statement.get())).spliterator(), true);			
+		}		
 		
 		/**
 		 * Private constructor.

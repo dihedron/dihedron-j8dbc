@@ -11,12 +11,12 @@ import org.dihedron.j8dbc.Record;
 import org.dihedron.j8dbc.RecordFactory;
 
 /**
- * A factory for connected (database-backed) records. 
+ * A factory for disconnected (locally cached) records. 
  * 
  * @author Andrea Funto'
  */
 @License
-public class ConnectedRecordFactory extends RecordFactory {
+public class DisconnectedRecordFactory extends RecordFactory {
 
 	/**
 	 * Constructor.
@@ -26,7 +26,7 @@ public class ConnectedRecordFactory extends RecordFactory {
 	 * @param stmt
 	 *   the {@code Statement} associated with the {@code ResultSet}.
 	 */
-	public ConnectedRecordFactory(ResultSet rs, Statement stmt) {
+	public DisconnectedRecordFactory(ResultSet rs, Statement stmt) {
 		super(rs, stmt);
 	}
 
@@ -35,6 +35,6 @@ public class ConnectedRecordFactory extends RecordFactory {
 	 */
 	@Override
 	public Record makeRecord() {
-		return new ConnectedRecord(reference.get());
+		return new DisconnectedRecord(reference.get());
 	}
 }
