@@ -12,6 +12,8 @@ import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 import org.dihedron.core.License;
+import org.dihedron.j8dbc.impl.ConnectedRecord;
+import org.dihedron.j8dbc.impl.ConnectedResultSetIterable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -99,7 +101,7 @@ public class Select  {
 		}
 		
 		/**
-		 * Runs the query against the database, returining a stream
+		 * Runs the query against the database, returning a stream
 		 * of {@code Record} objects.
 		 * 
 		 * @return
@@ -112,7 +114,7 @@ public class Select  {
 			// set would be closed immediately too; thus we have to pass it on along with the result 
 			// set and expect the stream-supporting classes to clean up properly as soon as they're 
 			// done iterating on the records
-			return StreamSupport.stream(new ResultSetIterable(results, statement.get()).spliterator(), false);			
+			return StreamSupport.stream(new ConnectedResultSetIterable(results, statement.get()).spliterator(), false);			
 		}
 		
 		/**

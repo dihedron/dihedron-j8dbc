@@ -14,7 +14,7 @@ import org.dihedron.core.License;
  * @author Andrea Funto'
  */
 @License
-class RecordIterable implements Iterable<Field> {
+public class RecordIterable implements Iterable<Field> {
 	
 	/**
 	 * A weak reference to the {@code Record} to iterate upon.
